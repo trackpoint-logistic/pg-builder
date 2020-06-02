@@ -970,9 +970,8 @@ class SqlBuilderWalker implements TreeWalker
             return '$' . $node->value;
             break;
         case Token::TYPE_NAMED_PARAM:
-            throw new exceptions\InvalidArgumentException(sprintf(
-                "Generated SQL should not contain named parameters, ':%s' still present", $node->value
-            ));
+            return ':' . $node->value;
+            break;
         default:
             throw new exceptions\InvalidArgumentException(sprintf('Unexpected parameter type %d', $node->type));
         }

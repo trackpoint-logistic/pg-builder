@@ -76,10 +76,6 @@ class ParameterWalker extends BlankWalker
         } elseif (!array_key_exists($paramIdx, $this->parameterTypes)) {
             $this->parameterTypes[$paramIdx] = null;
         }
-
-        if (Token::TYPE_NAMED_PARAM === $node->type) {
-            $parent->replaceChild($node, new nodes\Parameter($paramIdx + 1));
-        }
     }
 
     /* Optimization: these may have child nodes but will not have parameters. No sense in visiting. */
