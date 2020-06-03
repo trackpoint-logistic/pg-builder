@@ -354,6 +354,10 @@ abstract class BlankWalker implements TreeWalker
         $this->walkGenericNodeList($expression);
     }
 
+    public function walkValueList(nodes\lists\ValueList $expression) {
+        $this->walkGenericNodeList($expression);
+    }
+
     public function walkSubselectExpression(nodes\expressions\SubselectExpression $expression)
     {
         $expression->query->dispatch($this);
