@@ -19,6 +19,7 @@ namespace sad_spirit\pg_builder;
 
 use sad_spirit\pg_builder\nodes\lists\TargetList,
     sad_spirit\pg_builder\nodes\lists\SetTargetList,
+    sad_spirit\pg_builder\nodes\lists\ValueList,
     sad_spirit\pg_builder\nodes\range\InsertTarget,
     sad_spirit\pg_builder\nodes\OnConflictClause,
     sad_spirit\pg_builder\exceptions\InvalidArgumentException;
@@ -41,12 +42,13 @@ class Insert extends Statement
 
         $this->setNamedProperty('relation', $relation);
         $this->props['cols']       = new SetTargetList();
-        $this->props['values']     = null;
+        $this->props['values']     = new ValueList();
         $this->props['returning']  = new TargetList();
         $this->props['onConflict'] = null;
         $this->props['overriding'] = null;
 
         $this->props['cols']->setParentNode($this);
+        $this->props['values']->setParentNode($this);
         $this->props['returning']->setParentNode($this);
     }
 
