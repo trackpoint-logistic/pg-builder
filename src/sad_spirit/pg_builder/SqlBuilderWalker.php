@@ -1280,6 +1280,12 @@ class SqlBuilderWalker implements TreeWalker
         }
     }
 
+    public function walkValueList(nodes\lists\ValueList $expression)
+    {
+        return 'VALUES (' . implode(', ', $this->walkGenericNodeList($expression)) . ')';
+    }
+
+
     public function walkSubselectExpression(nodes\expressions\SubselectExpression $expression)
     {
         $this->indentLevel++;
