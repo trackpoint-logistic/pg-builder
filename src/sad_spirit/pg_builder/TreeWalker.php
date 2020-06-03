@@ -105,6 +105,8 @@ interface TreeWalker
 
     public function walkRowExpression(nodes\expressions\RowExpression $expression);
 
+    public function walkValueList(nodes\lists\ValueList $expression);
+
     public function walkSubselectExpression(nodes\expressions\SubselectExpression $expression);
 
     public function walkTypecastExpression(nodes\expressions\TypecastExpression $expression);

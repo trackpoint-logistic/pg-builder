@@ -17,39 +17,19 @@
 
 namespace sad_spirit\pg_builder\nodes\lists;
 
-use sad_spirit\pg_builder\nodes\SetTargetElement,
-    sad_spirit\pg_builder\exceptions\InvalidArgumentException,
-    sad_spirit\pg_builder\ElementParseable,
-    sad_spirit\pg_builder\Parseable,
-    sad_spirit\pg_builder\Parser;
+use sad_spirit\pg_builder\nodes\ScalarExpression,
+    sad_spirit\pg_builder\TreeWalker;
 
 /**
  * Represents a list of SetTargetElements, used by INSERT and UPDATE statements
  */
-class ValueList extends NonAssociativeList implements Parseable, ElementParseable
+class ValueList extends ExpressionList implements ScalarExpression
 {
-    protected function normalizeElement(&$offset, &$value)
-    {
-        parent::normalizeElement($offset, $value);
+	
+    protected $allowDefault = true;
 
-        if (!($value instanceof SetTargetElement)) {
-            throw new InvalidArgumentException(sprintf(
-                '%s can contain only instances of SetTargetElement, %s given',
-                __CLASS__, is_object($value) ? 'object(' . get_class($value) . ')' : gettype($value)
-            ));
-        }
-    }
-
-    public static function createFromString(Parser $parser, $sql)
+    public function dispatch(TreeWalker $walker)
     {
-        return $parser->parseInsertTargetList($sql);
-    }
-
-    public function createElementFromString($sql)
-    {
-        if (!($parser = $this->getParser())) {
-            throw new InvalidArgumentException("Passed a string as a list element without a Parser available");
-        }
-        return $parser->parseSetTargetElement($sql);
+        return $walker->walkValueList($this);
     }
 }
